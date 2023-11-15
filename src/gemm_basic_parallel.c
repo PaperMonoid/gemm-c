@@ -10,12 +10,14 @@ float* gemm_basic(float* a, int n, int m, float* b, int p) {
     return NULL;
   }
 
+  #pragma omp parallel for
   for (int i = 0; i < n; i++) {
     for (int j = 0; j < p; j++) {
       c[i * p + j] = 0.0f;
     }
   }
 
+  #pragma omp parallel for
   for (int i = 0; i < n; i++) {
     for (int j = 0; j < p; j++) {
       for (int k = 0; k < m; k++) {
