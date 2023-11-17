@@ -1,16 +1,16 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include "gemm_basic.c"
-#include "gemm_basic_parallel.c"
-#include "gemm_basic_parallel_simd.c"
+#include "gemm_basic.h"
+#include "gemm_basic_parallel.h"
+#include "gemm_basic_parallel_simd.h"
+#include "benchmark.c"
 
-
-int main() {
+void test() {
   int n = 2;
   int m = 3;
   float a[2][3] = {
     {1.0, 2.0, 3.0},
-    {5.0, 6.0, 7.0},
+      {5.0, 6.0, 7.0},
   };
 
   int p = 4;
@@ -64,6 +64,10 @@ int main() {
     }
     free(c);
   }
+}
 
+
+int main() {
+  benchmark(1);
   return 0;
 }
