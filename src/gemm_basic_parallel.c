@@ -1,7 +1,7 @@
 #include <stdlib.h>
 
 
-float* gemm_basic(float* a, int n, int m, float* b, int p) {
+float* gemm_basic_parallel(float* a, int n, int m, float* b, int p) {
   if (n < 1 || m < 1 || p < 1)
     return NULL;
 

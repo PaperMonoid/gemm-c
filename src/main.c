@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "gemm_basic.c"
+#include "gemm_basic_parallel.c"
+#include "gemm_basic_parallel_simd.c"
 
 
 int main() {
@@ -18,8 +20,41 @@ int main() {
     {9.0, 10.0, 11.0, 12.0}
   };
 
-  float* c = gemm_basic(&a[0][0], n, m, &b[0][0], p);
+  float* c;
 
+  printf("Gemm Basic: \n\n");
+
+  c = gemm_basic(&a[0][0], n, m, &b[0][0], p);
+  if (c) {
+    for (int i = 0; i < n; i++) {
+      for (int j = 0; j < p; j++) {
+	printf("%f, ", c[i * p + j]);
+      }
+      printf("\n ");
+    }
+    free(c);
+  }
+
+  printf("\n--------------------------------\n\n");
+
+  printf("Gemm Basic Parallel: \n\n");
+
+  c = gemm_basic_parallel(&a[0][0], n, m, &b[0][0], p);
+  if (c) {
+    for (int i = 0; i < n; i++) {
+      for (int j = 0; j < p; j++) {
+	printf("%f, ", c[i * p + j]);
+      }
+      printf("\n ");
+    }
+    free(c);
+  }
+
+  printf("\n--------------------------------\n\n");
+
+  printf("Gemm Basic Parallel Simd: \n\n");
+
+  c = gemm_basic_parallel_simd(&a[0][0], n, m, &b[0][0], p);
   if (c) {
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < p; j++) {
