@@ -5,5 +5,5 @@ General matrix multiplication subroutines with benchmarks
 
 Compile with command:
 ```
-gcc main.c -fopenmp -lpthread -mavx2 -mfma -O2
+gcc -fopenmp -lpthread -mavx2 -mfma -O2 -o main.out main.c
 ```
