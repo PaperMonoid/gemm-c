@@ -3,6 +3,8 @@
 #include "gemm_basic.h"
 #include "gemm_basic_parallel.h"
 #include "gemm_basic_parallel_simd.h"
+#include "gemm_transposed.h"
+#include "gemm_transposed_parallel.h"
 #include "benchmark.c"
 
 void test() {
@@ -36,7 +38,6 @@ void test() {
   }
 
   printf("\n--------------------------------\n\n");
-
   printf("Gemm Basic Parallel: \n\n");
 
   c = gemm_basic_parallel(&a[0][0], n, m, &b[0][0], p);
@@ -51,7 +52,6 @@ void test() {
   }
 
   printf("\n--------------------------------\n\n");
-
   printf("Gemm Basic Parallel Simd: \n\n");
 
   c = gemm_basic_parallel_simd(&a[0][0], n, m, &b[0][0], p);
@@ -64,10 +64,45 @@ void test() {
     }
     free(c);
   }
+
+  printf("\n--------------------------------\n\n");
+  printf("Gemm Transposed: \n\n");
+
+  c = gemm_transposed(&a[0][0], n, m, &b[0][0], p);
+  if (c) {
+    for (int i = 0; i < n; i++) {
+      for (int j = 0; j < p; j++) {
+	printf("%f, ", c[i * p + j]);
+      }
+      printf("\n ");
+    }
+    free(c);
+  }
+
+  printf("\n--------------------------------\n\n");
+  printf("Gemm Transposed Parallel: \n\n");
+
+  c = gemm_transposed_parallel(&a[0][0], n, m, &b[0][0], p);
+  if (c) {
+    for (int i = 0; i < n; i++) {
+      for (int j = 0; j < p; j++) {
+	printf("%f, ", c[i * p + j]);
+      }
+      printf("\n ");
+    }
+    free(c);
+  }
+
+  printf("\n--------------------------------\n\n");
+
 }
 
 
 int main() {
+  test();
+
+  printf("\n");
+
   benchmark(1);
   return 0;
 }

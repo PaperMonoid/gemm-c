@@ -1,8 +1,11 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+
 #include "gemm_basic.h"
 #include "gemm_basic_parallel.h"
 #include "gemm_basic_parallel_simd.h"
+#include "gemm_transposed.h"
 
 #define MODE_BASIC 1
 #define MODE_BASIC_PARALLEL 2
@@ -28,7 +31,7 @@ float* new_random_matrix(int n, int m) {
 
 void benchmark(int mode) {
   int sizes[7] = {
-    4, 16, 64, 256, 1024, 2058, 4096
+    4, 16, 64, 256, 1024, 2058, 3000 //, 4096
   };
   int n, m, p;
   float *a, *b, *c;
@@ -49,6 +52,8 @@ void benchmark(int mode) {
       while (elapsed <= 10.0) {
 	a = new_random_matrix(n, m);
 	b = new_random_matrix(m, p);
+	//c = gemm_basic(a, n, m, b, p);
+	//c = gemm_transposed(a, n, m, b, p);
 	c = gemm_basic_parallel_simd(a, n, m, b, p);
 	free(a);
 	free(b);
@@ -57,7 +62,7 @@ void benchmark(int mode) {
 	time(&current_time);
 	elapsed = difftime(current_time, start_time);
       }
-      double executions_per_second = (double)executions / elapsed;
+      double executions_per_second = (double) executions / elapsed;
       printf("Matrix size %dx%d | Executions per second: %f\n", n, m, executions_per_second);
     }
     break;
