@@ -5,6 +5,7 @@
 #include "gemm_basic_parallel_simd.h"
 #include "gemm_transposed.h"
 #include "gemm_transposed_parallel.h"
+#include "gemm_transposed_parallel_simd.h"
 #include "benchmark.c"
 
 void test() {
@@ -94,6 +95,18 @@ void test() {
   }
 
   printf("\n--------------------------------\n\n");
+  printf("Gemm Transposed Parallel Simd: \n\n");
+
+  c = gemm_transposed_parallel_simd(&a[0][0], n, m, &b[0][0], p);
+  if (c) {
+    for (int i = 0; i < n; i++) {
+      for (int j = 0; j < p; j++) {
+	printf("%f, ", c[i * p + j]);
+      }
+      printf("\n ");
+    }
+    free(c);
+  }
 
 }
 

@@ -1,6 +1,7 @@
 #include <immintrin.h>
 #include <stdlib.h>
 
+
 float* gemm_basic_parallel_simd(float* a, int n, int m, float* b, int p) {
     if (n < 1 || m < 1 || p < 1)
         return NULL;
