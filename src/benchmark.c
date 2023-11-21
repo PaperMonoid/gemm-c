@@ -8,6 +8,7 @@
 #include "gemm_transposed.h"
 #include "gemm_transposed_parallel.h"
 #include "gemm_transposed_parallel_simd.h"
+#include "gemm_block_parallel.h"
 
 #define MODE_BASIC 1
 #define MODE_BASIC_PARALLEL 2
@@ -56,8 +57,9 @@ void benchmark(int mode) {
 	b = new_random_matrix(m, p);
 	//c = gemm_basic(a, n, m, b, p);
 	//c = gemm_transposed(a, n, m, b, p);
-	//c = gemm_basic_parallel_simd(a, n, m, b, p);
-	c = gemm_transposed_parallel_simd(a, n, m, b, p);
+	//c = gemm_basic_parallel_simd(a, n, m, b, p)
+	//c = gemm_transposed_parallel_simd(a, n, m, b, p);
+ 	c = gemm_block_parallel(a, n, m, b, p);
 	free(a);
 	free(b);
 	free(c);
