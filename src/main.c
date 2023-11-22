@@ -7,6 +7,7 @@
 #include "gemm_transposed_parallel.h"
 #include "gemm_transposed_parallel_simd.h"
 #include "gemm_block_parallel.h"
+#include "gemm_block_parallel_simd.h"
 #include "benchmark.c"
 
 
@@ -114,6 +115,20 @@ void test() {
   printf("Gemm Block Parallel: \n\n");
 
   c = gemm_block_parallel(&a[0][0], n, m, &b[0][0], p);
+  if (c) {
+    for (int i = 0; i < n; i++) {
+      for (int j = 0; j < p; j++) {
+	printf("%f, ", c[i * p + j]);
+      }
+      printf("\n ");
+    }
+    free(c);
+  }
+
+  printf("\n--------------------------------\n\n");
+  printf("Gemm Block Parallel Simd: \n\n");
+
+  c = gemm_block_parallel_simd(&a[0][0], n, m, &b[0][0], p);
   if (c) {
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < p; j++) {
