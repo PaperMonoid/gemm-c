@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
  // Ensure that BLOCK_SIZE is a multiple of 8
-#define BLOCK_SIZE 64
+#define BLOCK_SIZE 32
 
 
 float* gemm_block_parallel_simd(float* a, int n, int m, float* b, int p) {
@@ -14,26 +14,22 @@ float* gemm_block_parallel_simd(float* a, int n, int m, float* b, int p) {
         return NULL;
     }
 
-    #pragma omp parallel for
+    #pragma omp parallel for collapse(2)
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < p; j++) {
             c[i * p + j] = 0.0f;
         }
     }
 
-    int i_max, j_max, k_max;
 
-    #pragma omp parallel for
+    #pragma omp parallel for collapse(2)
     for (int i0 = 0; i0 < n; i0 += BLOCK_SIZE) {
-      i_max = (i0 + BLOCK_SIZE < n) ? i0 + BLOCK_SIZE : n;
       for (int j0 = 0; j0 < p; j0 += BLOCK_SIZE) {
-	j_max = (j0 + BLOCK_SIZE < p) ? j0 + BLOCK_SIZE : p;
         for (int k0 = 0; k0 < m; k0 += BLOCK_SIZE) {
-	  k_max = (k0 + BLOCK_SIZE < m) ? k0 + BLOCK_SIZE : m;
-	  for (int i = i0; i < i_max; i++) {
-	    for (int j = j0; j < j_max; j++) {
+	  for (int i = i0; i < (i0 + BLOCK_SIZE < n) * (i0 + BLOCK_SIZE) + !(i0 + BLOCK_SIZE < n) * n; i++) {
+	    for (int j = j0; j < (j0 + BLOCK_SIZE < p) * (j0 + BLOCK_SIZE) + !(j0 + BLOCK_SIZE < p) * p; j++) {
 	      __m256 sum_vec = _mm256_setzero_ps();
-	      for (int k = k0; k < k_max; k += 8) {
+	      for (int k = k0; k < (k0 + BLOCK_SIZE < m) * (k0 + BLOCK_SIZE) + !(k0 + BLOCK_SIZE < m) * m; k += 8) {
 		__m256 a_vec = _mm256_loadu_ps(a + i * m + k);
 		float b_elements[8] = {0};
 		int t;
