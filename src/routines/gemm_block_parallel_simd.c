@@ -22,7 +22,7 @@ float* gemm_block_parallel_simd(float* a, int n, int m, float* b, int p) {
     }
 
 
-    #pragma omp parallel for collapse(2)
+    #pragma omp parallel for collapse(3)
     for (int i0 = 0; i0 < n; i0 += BLOCK_SIZE) {
       for (int j0 = 0; j0 < p; j0 += BLOCK_SIZE) {
         for (int k0 = 0; k0 < m; k0 += BLOCK_SIZE) {

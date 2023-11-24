@@ -11,14 +11,14 @@ float* gemm_basic_parallel_simd(float* a, int n, int m, float* b, int p) {
         return NULL;
     }
 
-    #pragma omp parallel for
+    #pragma omp parallel for collapse(2)
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < p; j++) {
             c[i * p + j] = 0.0f;
         }
     }
 
-    #pragma omp parallel for
+    #pragma omp parallel for collapse(2)
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < p; j++) {
             __m256 sum = _mm256_setzero_ps();
