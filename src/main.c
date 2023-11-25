@@ -6,6 +6,7 @@
 #include "gemm_transposed.h"
 #include "gemm_transposed_parallel.h"
 #include "gemm_transposed_parallel_simd.h"
+#include "gemm_block.h"
 #include "gemm_block_parallel.h"
 #include "gemm_block_parallel_simd.h"
 #include "benchmark.c"
@@ -36,7 +37,7 @@ void test() {
       for (int j = 0; j < p; j++) {
 	printf("%f, ", c[i * p + j]);
       }
-      printf("\n ");
+      printf("\n");
     }
     free(c);
   }
@@ -50,7 +51,7 @@ void test() {
       for (int j = 0; j < p; j++) {
 	printf("%f, ", c[i * p + j]);
       }
-      printf("\n ");
+      printf("\n");
     }
     free(c);
   }
@@ -64,7 +65,7 @@ void test() {
       for (int j = 0; j < p; j++) {
 	printf("%f, ", c[i * p + j]);
       }
-      printf("\n ");
+      printf("\n");
     }
     free(c);
   }
@@ -78,7 +79,7 @@ void test() {
       for (int j = 0; j < p; j++) {
 	printf("%f, ", c[i * p + j]);
       }
-      printf("\n ");
+      printf("\n");
     }
     free(c);
   }
@@ -92,7 +93,7 @@ void test() {
       for (int j = 0; j < p; j++) {
 	printf("%f, ", c[i * p + j]);
       }
-      printf("\n ");
+      printf("\n");
     }
     free(c);
   }
@@ -106,7 +107,21 @@ void test() {
       for (int j = 0; j < p; j++) {
 	printf("%f, ", c[i * p + j]);
       }
-      printf("\n ");
+      printf("\n");
+    }
+    free(c);
+  }
+
+  printf("\n--------------------------------\n\n");
+  printf("Gemm Block: \n\n");
+
+  c = gemm_block(&a[0][0], n, m, &b[0][0], p);
+  if (c) {
+    for (int i = 0; i < n; i++) {
+      for (int j = 0; j < p; j++) {
+	printf("%f, ", c[i * p + j]);
+      }
+      printf("\n");
     }
     free(c);
   }
@@ -120,7 +135,7 @@ void test() {
       for (int j = 0; j < p; j++) {
 	printf("%f, ", c[i * p + j]);
       }
-      printf("\n ");
+      printf("\n");
     }
     free(c);
   }
@@ -134,19 +149,34 @@ void test() {
       for (int j = 0; j < p; j++) {
 	printf("%f, ", c[i * p + j]);
       }
-      printf("\n ");
+      printf("\n");
     }
     free(c);
   }
 
+  printf("\n--------------------------------\n\n");
 }
 
 
 int main() {
   test();
 
-  printf("\n");
+  FILE *file;
+  file = fopen("results.txt", "w");
+  fprintf(file, "");
+  fclose(file);
+  file = fopen("results.txt", "a");
 
-  benchmark(1);
+  benchmark(file, 1);
+  benchmark(file, 2);
+  benchmark(file, 3);
+  benchmark(file, 4);
+  benchmark(file, 5);
+  benchmark(file, 6);
+  benchmark(file, 7);
+  benchmark(file, 8);
+  benchmark(file, 9);
+
+  fclose(file);
   return 0;
 }
