@@ -1,9 +1,7 @@
 #include <immintrin.h>
 #include <stdlib.h>
 
- // Ensure that BLOCK_SIZE is a multiple of 8
-#define BLOCK_SIZE 32
-
+#define BLOCK_SIZE 8
 
 float* gemm_block_parallel_simd(float* a, int n, int m, float* b, int p) {
     if (n < 1 || m < 1 || p < 1)
@@ -20,7 +18,6 @@ float* gemm_block_parallel_simd(float* a, int n, int m, float* b, int p) {
             c[i * p + j] = 0.0f;
         }
     }
-
 
     #pragma omp parallel for collapse(3)
     for (int i0 = 0; i0 < n; i0 += BLOCK_SIZE) {
