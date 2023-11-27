@@ -17,10 +17,9 @@ float* gemm_transposed(float* a, int n, int m, float* b, int p) {
     }
   }
 
-  for (int i = 0; i < n; i++) {
-    for (int j = 0; j < p; j++) {
-      c[i * p + j] = 0.0f;
-    }
+  #pragma omp parallel for
+  for (int i = 0; i < n * p; i++) {
+    c[i] = 0.0f;
   }
 
   for (int i = 0; i < n; i++) {
