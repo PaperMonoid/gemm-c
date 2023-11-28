@@ -1,3 +1,6 @@
+# Ignore plots
+plots/*
+
 # Prerequisites
 *.d
 
