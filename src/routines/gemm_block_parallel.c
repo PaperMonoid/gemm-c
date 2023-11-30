@@ -1,6 +1,6 @@
 #include <stdlib.h>
 
-#define BLOCK_SIZE 8
+#define BLOCK_SIZE 16
 
 
 float* gemm_block_parallel(float* a, int n, int m, float* b, int p) {
