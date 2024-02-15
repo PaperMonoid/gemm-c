@@ -10,15 +10,15 @@ float* gemm_basic_parallel(float* a, int n, int m, float* b, int p) {
     return NULL;
   }
 
-  #pragma omp parallel for
+#pragma omp parallel for
   for (int i = 0; i < n * p; i++) {
     c[i] = 0.0f;
   }
 
-  #pragma omp parallel for collapse(3)
+#pragma omp parallel for
   for (int i = 0; i < n; i++) {
-    for (int j = 0; j < p; j++) {
-      for (int k = 0; k < m; k++) {
+    for (int k = 0; k < m; k++) {
+      for (int j = 0; j < p; j++) {
 	c[i * p + j] += a[i * m + k] * b[k * p + j];
       }
     }

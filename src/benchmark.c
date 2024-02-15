@@ -2,15 +2,13 @@
 #include <stdlib.h>
 #include <time.h>
 
+
 #include "gemm_basic.h"
 #include "gemm_basic_parallel.h"
 #include "gemm_basic_parallel_simd.h"
 #include "gemm_transposed.h"
 #include "gemm_transposed_parallel.h"
 #include "gemm_transposed_parallel_simd.h"
-#include "gemm_block.h"
-#include "gemm_block_parallel.h"
-#include "gemm_block_parallel_simd.h"
 
 
 #define MODE_BASIC 1
@@ -19,9 +17,6 @@
 #define MODE_TRANSPOSED 4
 #define MODE_TRANSPOSED_PARALLEL 5
 #define MODE_TRANSPOSED_PARALLEL_SIMD 6
-#define MODE_BLOCK 7
-#define MODE_BLOCK_PARALLEL 8
-#define MODE_BLOCK_PARALLEL_SIMD 9
 
 
 void generate_random_floats(float *array, int size, float min, float max) {
@@ -42,13 +37,13 @@ float* new_random_matrix(int n, int m) {
 
 
 void benchmark(FILE *file, int mode) {
-  int sizes[7] = {
-    4, 16, 64, 256, 1024, 2058, 3000
+  int sizes[2] = {
+    //4, 16, 64, 256, 1024, 2058, 3000
+    2058, 3000
   };
   char* modes[9] = {
     "basic", "basic_parallel", "basic_parallel_simd",
-    "transposed", "transposed_parallel", "transposed_parallel_simd",
-    "block", "block_parallel", "block_parallel_simd"
+    "transposed", "transposed_parallel", "transposed_parallel_simd"
   };
   int n, m, p;
   float *a, *b, *c;
@@ -58,7 +53,7 @@ void benchmark(FILE *file, int mode) {
 
   printf("Benchmarking Mode: %s", modes[mode - 1]);
   fflush(stdout);
-  for (int i = 0; i < 7; i++) {
+  for (int i = 0; i < 2; i++) {
     n = sizes[i];
     m = sizes[i];
     p = sizes[i];
@@ -86,15 +81,6 @@ void benchmark(FILE *file, int mode) {
 	break;
       case MODE_TRANSPOSED_PARALLEL_SIMD:
 	c = gemm_transposed_parallel_simd(a, n, m, b, p);
-	break;
-      case MODE_BLOCK:
-	c = gemm_block(a, n, m, b, p);
-	break;
-      case MODE_BLOCK_PARALLEL:
-	c = gemm_block(a, n, m, b, p);
-	break;
-      case MODE_BLOCK_PARALLEL_SIMD:
-	c = gemm_block(a, n, m, b, p);
 	break;
       }
       free(a);

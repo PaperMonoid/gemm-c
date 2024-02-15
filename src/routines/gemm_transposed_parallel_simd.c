@@ -12,19 +12,23 @@ float* gemm_transposed_parallel_simd(float* a, int n, int m, float* b, int p) {
   }
 
   float* b_t = malloc(sizeof(float) * m * p);
-  #pragma omp parallel for collapse(2)
+  if (b_t == NULL) {
+    return NULL;
+  }
+
+#pragma omp parallel for
   for (int i = 0; i < m; i++) {
     for (int j = 0; j < p; j++) {
-      b_t[i * p + j] = b[j * m + i];
+      b_t[j * m + i] = b[i * p + j];
     }
   }
 
-  #pragma omp parallel for
+#pragma omp parallel for
   for (int i = 0; i < n * p; i++) {
     c[i] = 0.0f;
   }
 
-  #pragma omp parallel for collapse(2)
+#pragma omp parallel for
   for (int i = 0; i < n; i++) {
     for (int j = 0; j < p; j++) {
       __m256 sum = _mm256_setzero_ps();
@@ -34,14 +38,14 @@ float* gemm_transposed_parallel_simd(float* a, int n, int m, float* b, int p) {
       for (; k <= m - 8; k += 8) {
 	__m256 a_vec = _mm256_loadu_ps(a + i * m + k);
 	float b_elements[8] = {
-	  b[(k + 0) * p + j],
-	  b[(k + 1) * p + j],
-	  b[(k + 2) * p + j],
-	  b[(k + 3) * p + j],
-	  b[(k + 4) * p + j],
-	  b[(k + 5) * p + j],
-	  b[(k + 6) * p + j],
-	  b[(k + 7) * p + j]
+	  b_t[(j + 0) * m + k],
+	  b_t[(j + 1) * m + k],
+	  b_t[(j + 2) * m + k],
+	  b_t[(j + 3) * m + k],
+	  b_t[(j + 4) * m + k],
+	  b_t[(j + 5) * m + k],
+	  b_t[(j + 6) * m + k],
+	  b_t[(j + 7) * m + k]
 	};
 	__m256 b_vec = _mm256_loadu_ps(b_elements);
 	sum = _mm256_fmadd_ps(a_vec, b_vec, sum);
@@ -50,7 +54,7 @@ float* gemm_transposed_parallel_simd(float* a, int n, int m, float* b, int p) {
       // handle remaining elements
       float final_sum = 0.0f;
       for (; k < m; ++k) {
-	final_sum += a[i * m + k] * b[k * p + j];
+	final_sum += a[i * m + k] * b_t[j * m + k];
       }
 
       // sum up the values
