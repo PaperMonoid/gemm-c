@@ -1,1 +1,1 @@
-float* gemm_basic(float* a, int n, int m, float* b, int p);
+struct Matrix *gemm_basic(struct Matrix *a, struct Matrix *b);

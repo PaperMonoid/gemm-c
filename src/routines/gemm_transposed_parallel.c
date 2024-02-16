@@ -1,7 +1,14 @@
 #include <stdlib.h>
+#include "../matrix.h"
 
 
-float* gemm_transposed_parallel(float* a, int n, int m, float* b, int p) {
+struct Matrix *gemm_transposed_parallel(struct Matrix *A, struct Matrix *B) {
+  float *a = A->data;
+  float *b = B->data;
+  int n = A->n;
+  int m = A->m;
+  int p = B->m;
+
   if (n < 1 || m < 1 || p < 1)
     return NULL;
 
@@ -38,5 +45,5 @@ float* gemm_transposed_parallel(float* a, int n, int m, float* b, int p) {
 
   free(b_t);
 
-  return c;
+  return new_matrix(c, n, p);
 }

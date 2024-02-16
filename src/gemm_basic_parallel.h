@@ -1,1 +1,1 @@
-float* gemm_basic_parallel(float* a, int n, int m, float* b, int p);
+struct Matrix *gemm_basic_parallel(struct Matrix *a, struct Matrix *b);

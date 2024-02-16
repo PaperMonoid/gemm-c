@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-
-
+#include "matrix.h"
 #include "gemm_basic.h"
 #include "gemm_basic_parallel.h"
 #include "gemm_basic_parallel_simd.h"
@@ -19,20 +18,20 @@
 #define MODE_TRANSPOSED_PARALLEL_SIMD 6
 
 
-void generate_random_floats(float *array, int size, float min, float max) {
+void generate_random_floats(float *data, int size, float min, float max) {
     srand((unsigned int)time(NULL));
     for (int i = 0; i < size; i++) {
         float scale = rand() / (float) RAND_MAX;
-        array[i] = min + scale * (max - min);
+        data[i] = min + scale * (max - min);
     }
 }
 
 
-float* new_random_matrix(int n, int m) {
+struct Matrix *new_random_matrix(int n, int m) {
   int size = n * m;
-  float* array = malloc(sizeof(float) * size);
-  generate_random_floats(array, size, 0.0, 1.0);
-  return array;
+  float* data = malloc(sizeof(float) * size);
+  generate_random_floats(data, size, 0.0, 1.0);
+  return new_matrix(data, n, m);
 }
 
 
@@ -46,7 +45,7 @@ void benchmark(FILE *file, int mode) {
     "transposed", "transposed_parallel", "transposed_parallel_simd"
   };
   int n, m, p;
-  float *a, *b, *c;
+  struct Matrix *A, *B, *C;
   int executions = 0;
   time_t start_time, current_time;
   double elapsed = 0.0;
@@ -61,31 +60,31 @@ void benchmark(FILE *file, int mode) {
     elapsed = 0.0;
     time(&start_time);
     while (elapsed <= 10.0) {
-      a = new_random_matrix(n, m);
-      b = new_random_matrix(m, p);
+      A = new_random_matrix(n, m);
+      B = new_random_matrix(m, p);
       switch(mode) {
       case MODE_BASIC:
-	c = gemm_basic(a, n, m, b, p);
+	C = gemm_basic(A, B);
 	break;
       case MODE_BASIC_PARALLEL:
-	c = gemm_basic_parallel(a, n, m, b, p);
+	C = gemm_basic_parallel(A, B);
 	break;
       case MODE_BASIC_PARALLEL_SIMD:
-	c = gemm_basic_parallel_simd(a, n, m, b, p);
+	C = gemm_basic_parallel_simd(A, B);
 	break;
       case MODE_TRANSPOSED:
-	c = gemm_transposed(a, n, m, b, p);
+	C = gemm_transposed(A, B);
 	break;
       case MODE_TRANSPOSED_PARALLEL:
-	c = gemm_transposed_parallel(a, n, m, b, p);
+	C = gemm_transposed_parallel(A, B);
 	break;
       case MODE_TRANSPOSED_PARALLEL_SIMD:
-	c = gemm_transposed_parallel_simd(a, n, m, b, p);
+	C = gemm_transposed_parallel_simd(A, B);
 	break;
       }
-      free(a);
-      free(b);
-      free(c);
+      free_matrix(A);
+      free_matrix(B);
+      free_matrix(C);
       executions++;
       time(&current_time);
       elapsed = difftime(current_time, start_time);

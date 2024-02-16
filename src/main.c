@@ -1,5 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
+
+
+#include "matrix.h"
 #include "gemm_basic.h"
 #include "gemm_basic_parallel.h"
 #include "gemm_basic_parallel_simd.h"
@@ -16,6 +19,11 @@ void test() {
     {1.0, 2.0, 3.0},
       {5.0, 6.0, 7.0},
   };
+  struct Matrix A = {
+    .data = &a[0][0],
+    .n = n,
+    .m = m
+  };
 
   int p = 4;
   float b[3][4] = {
@@ -23,90 +31,102 @@ void test() {
     {5.0, 6.0, 7.0, 8.0},
     {9.0, 10.0, 11.0, 12.0}
   };
+  struct Matrix B = {
+    .data = &b[0][0],
+    .n = m,
+    .m = p
+  };
 
+  struct Matrix *C;
   float* c;
 
   printf("Gemm Basic: \n\n");
 
-  c = gemm_basic(&a[0][0], n, m, &b[0][0], p);
-  if (c) {
+  C = gemm_basic(&A, &B);
+  if (C) {
+    c = C->data;
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < p; j++) {
 	printf("%f, ", c[i * p + j]);
       }
       printf("\n");
     }
-    free(c);
+    free_matrix(C);
   }
 
   printf("\n--------------------------------\n\n");
   printf("Gemm Basic Parallel: \n\n");
 
-  c = gemm_basic_parallel(&a[0][0], n, m, &b[0][0], p);
-  if (c) {
+  C = gemm_basic_parallel(&A, &B);
+  if (C) {
+    c = C->data;
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < p; j++) {
 	printf("%f, ", c[i * p + j]);
       }
       printf("\n");
     }
-    free(c);
+    free_matrix(C);
   }
 
   printf("\n--------------------------------\n\n");
   printf("Gemm Basic Parallel Simd: \n\n");
 
-  c = gemm_basic_parallel_simd(&a[0][0], n, m, &b[0][0], p);
-  if (c) {
+  C = gemm_basic_parallel_simd(&A, &B);
+  if (C) {
+    c = C->data;
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < p; j++) {
 	printf("%f, ", c[i * p + j]);
       }
       printf("\n");
     }
-    free(c);
+    free_matrix(C);
   }
 
   printf("\n--------------------------------\n\n");
   printf("Gemm Transposed: \n\n");
 
-  c = gemm_transposed(&a[0][0], n, m, &b[0][0], p);
-  if (c) {
+  C = gemm_transposed(&A, &B);
+  if (C) {
+    c = C->data;
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < p; j++) {
 	printf("%f, ", c[i * p + j]);
       }
       printf("\n");
     }
-    free(c);
+    free_matrix(C);
   }
 
   printf("\n--------------------------------\n\n");
   printf("Gemm Transposed Parallel: \n\n");
 
-  c = gemm_transposed_parallel(&a[0][0], n, m, &b[0][0], p);
-  if (c) {
+  C = gemm_transposed_parallel(&A, &B);
+  if (C) {
+    c = C->data;
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < p; j++) {
 	printf("%f, ", c[i * p + j]);
       }
       printf("\n");
     }
-    free(c);
+    free_matrix(C);
   }
 
   printf("\n--------------------------------\n\n");
   printf("Gemm Transposed Parallel Simd: \n\n");
 
-  c = gemm_transposed_parallel_simd(&a[0][0], n, m, &b[0][0], p);
-  if (c) {
+  C = gemm_transposed_parallel_simd(&A, &B);
+  if (C) {
+    c = C->data;
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < p; j++) {
 	printf("%f, ", c[i * p + j]);
       }
       printf("\n");
     }
-    free(c);
+    free_matrix(C);
   }
 
   printf("\n--------------------------------\n\n");

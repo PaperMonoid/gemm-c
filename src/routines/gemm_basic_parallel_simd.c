@@ -1,8 +1,16 @@
 #include <immintrin.h>
 #include <stdlib.h>
+#include "../matrix.h"
 
 
-float* gemm_basic_parallel_simd(float* a, int n, int m, float* b, int p) {
+struct Matrix *gemm_basic_parallel_simd(struct Matrix *A, struct Matrix *B) {
+  float *a = A->data;
+  float *b = B->data;
+  int n = A->n;
+  int m = A->m;
+  int p = B->m;
+
+
   if (n < 1 || m < 1 || p < 1)
     return NULL;
 
@@ -55,5 +63,5 @@ float* gemm_basic_parallel_simd(float* a, int n, int m, float* b, int p) {
     }
   }
 
-  return c;
+  return new_matrix(c, n, p);
 }
