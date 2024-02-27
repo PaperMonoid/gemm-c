@@ -1,13 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "matrix.h"
-#include "gemm_basic.h"
-#include "gemm_basic_parallel.h"
-#include "gemm_basic_parallel_simd.h"
-#include "gemm_transposed.h"
-#include "gemm_transposed_parallel.h"
-#include "gemm_transposed_parallel_simd.h"
+
+#include "headers/matrix.h"
+#include "headers/gemm_basic.h"
+#include "headers/gemm_basic_parallel.h"
+#include "headers/gemm_basic_parallel_simd.h"
+#include "headers/gemm_transposed.h"
+#include "headers/gemm_transposed_parallel.h"
+#include "headers/gemm_transposed_parallel_simd.h"
 
 
 #define MODE_BASIC 1

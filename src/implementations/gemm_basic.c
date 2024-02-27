@@ -1,5 +1,6 @@
 #include <stdlib.h>
-#include "../matrix.h"
+
+#include "../headers/matrix.h"
 
 
 Matrix *gemm_basic(Matrix *A, Matrix *B) {

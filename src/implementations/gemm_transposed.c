@@ -1,5 +1,6 @@
 #include <stdlib.h>
-#include "../matrix.h"
+
+#include "../headers/matrix.h"
 
 
 Matrix *gemm_transposed(Matrix *A, Matrix *B) {

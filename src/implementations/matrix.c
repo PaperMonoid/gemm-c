@@ -1,5 +1,6 @@
 #include <stdlib.h>
-#include "matrix.h"
+
+#include "../headers/matrix.h"
 
 
 Matrix *new_matrix(float* data, int n, int m) {

@@ -1,5 +1,6 @@
 #include <stdlib.h>
-#include "../matrix.h"
+
+#include "../headers/matrix.h"
 
 
 Matrix *gemm_basic_parallel(Matrix *A, Matrix *B) {

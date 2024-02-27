@@ -1,14 +1,13 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-
-#include "matrix.h"
-#include "gemm_basic.h"
-#include "gemm_basic_parallel.h"
-#include "gemm_basic_parallel_simd.h"
-#include "gemm_transposed.h"
-#include "gemm_transposed_parallel.h"
-#include "gemm_transposed_parallel_simd.h"
+#include "headers/matrix.h"
+#include "headers/gemm_basic.h"
+#include "headers/gemm_basic_parallel.h"
+#include "headers/gemm_basic_parallel_simd.h"
+#include "headers/gemm_transposed.h"
+#include "headers/gemm_transposed_parallel.h"
+#include "headers/gemm_transposed_parallel_simd.h"
 #include "benchmark.c"
 
 
@@ -139,11 +138,6 @@ int main() {
 
   FILE *file;
   file = fopen("results.txt", "w");
-  //fprintf(file, "");
-  //fclose(file);
-  //file = fopen("results.txt", "a");
-
-  benchmark(file, 1);
   benchmark(file, 2);
   benchmark(file, 3);
   benchmark(file, 4);

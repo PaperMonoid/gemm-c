@@ -1,6 +1,7 @@
 #include <immintrin.h>
 #include <stdlib.h>
-#include "../matrix.h"
+
+#include "../headers/matrix.h"
 
 
 Matrix *gemm_basic_parallel_simd(Matrix *A, Matrix *B) {
