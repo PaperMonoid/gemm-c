@@ -27,7 +27,7 @@ void generate_random_floats(float *data, int size, float min, float max) {
 }
 
 
-struct Matrix *new_random_matrix(int n, int m) {
+Matrix *new_random_matrix(int n, int m) {
   int size = n * m;
   float* data = malloc(sizeof(float) * size);
   generate_random_floats(data, size, 0.0, 1.0);
@@ -45,7 +45,7 @@ void benchmark(FILE *file, int mode) {
     "transposed", "transposed_parallel", "transposed_parallel_simd"
   };
   int n, m, p;
-  struct Matrix *A, *B, *C;
+  Matrix *A, *B, *C;
   int executions = 0;
   time_t start_time, current_time;
   double elapsed = 0.0;

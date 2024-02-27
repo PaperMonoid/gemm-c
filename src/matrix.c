@@ -2,15 +2,15 @@
 #include "matrix.h"
 
 
-struct Matrix *new_matrix(float* data, int n, int m) {
-  struct Matrix *A = malloc(sizeof(struct Matrix));
+Matrix *new_matrix(float* data, int n, int m) {
+  Matrix *A = malloc(sizeof(Matrix));
   A->data = data;
   A->n = n;
   A->m = m;
   return A;
 }
 
-void free_matrix(struct Matrix *A) {
+void free_matrix(Matrix *A) {
   free(A->data);
   free(A);
 }

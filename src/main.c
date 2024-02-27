@@ -19,7 +19,7 @@ void test() {
     {1.0, 2.0, 3.0},
       {5.0, 6.0, 7.0},
   };
-  struct Matrix A = {
+  Matrix A = {
     .data = &a[0][0],
     .n = n,
     .m = m
@@ -31,13 +31,13 @@ void test() {
     {5.0, 6.0, 7.0, 8.0},
     {9.0, 10.0, 11.0, 12.0}
   };
-  struct Matrix B = {
+  Matrix B = {
     .data = &b[0][0],
     .n = m,
     .m = p
   };
 
-  struct Matrix *C;
+  Matrix *C;
   float* c;
 
   printf("Gemm Basic: \n\n");
@@ -139,9 +139,9 @@ int main() {
 
   FILE *file;
   file = fopen("results.txt", "w");
-  fprintf(file, "");
-  fclose(file);
-  file = fopen("results.txt", "a");
+  //fprintf(file, "");
+  //fclose(file);
+  //file = fopen("results.txt", "a");
 
   benchmark(file, 1);
   benchmark(file, 2);

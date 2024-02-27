@@ -1,1 +1,1 @@
-struct Matrix *gemm_transposed(struct Matrix *a, struct Matrix *b);
+Matrix *gemm_transposed(Matrix *a, Matrix *b);

@@ -1,14 +1,14 @@
 #ifndef MATRIX_H
 #define MATRIX_H
 
-struct Matrix {
+typedef struct {
   float* data;
   int n;
   int m;
-};
+} Matrix;
 
-struct Matrix *new_matrix(float* data, int n, int m);
+Matrix *new_matrix(float* data, int n, int m);
 
-void free_matrix(struct Matrix *A);
+void free_matrix(Matrix *A);
 
 #endif

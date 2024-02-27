@@ -2,7 +2,7 @@
 #include "../matrix.h"
 
 
-struct Matrix *gemm_basic_parallel(struct Matrix *A, struct Matrix *B) {
+Matrix *gemm_basic_parallel(Matrix *A, Matrix *B) {
   float *a = A->data;
   float *b = B->data;
   int n = A->n;

@@ -1,1 +1,1 @@
-struct Matrix *gemm_basic_parallel(struct Matrix *a, struct Matrix *b);
+Matrix *gemm_basic_parallel(Matrix *a, Matrix *b);
