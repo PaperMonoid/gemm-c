@@ -20,7 +20,6 @@
 
 
 void generate_random_floats(float *data, int size, float min, float max) {
-    srand((unsigned int)time(NULL));
     for (int i = 0; i < size; i++) {
         float scale = rand() / (float) RAND_MAX;
         data[i] = min + scale * (max - min);

@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
 
 #include "headers/matrix.h"
 #include "headers/gemm_basic.h"
@@ -134,6 +135,7 @@ void test() {
 
 
 int main() {
+  srand((unsigned int)time(NULL));
   test();
 
   FILE *file;
