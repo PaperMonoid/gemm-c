@@ -3,12 +3,12 @@
 #include "../headers/matrix.h"
 
 
-Matrix *gemm_transposed_parallel(Matrix *A, Matrix *B) {
-  float *a = A->data;
-  float *b = B->data;
-  int n = A->n;
-  int m = A->m;
-  int p = B->m;
+Matrix *gemm_transposed_parallel(Matrix *first, Matrix *second) {
+  float *a = first->data;
+  float *b = second->data;
+  int n = first->n;
+  int m = first->m;
+  int p = second->m;
 
   if (n < 1 || m < 1 || p < 1)
     return NULL;

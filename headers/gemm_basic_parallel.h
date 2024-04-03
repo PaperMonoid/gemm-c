@@ -1,1 +1,1 @@
-Matrix *gemm_basic_parallel(Matrix *A, Matrix *B);
+Matrix *gemm_basic_parallel(Matrix *first, Matrix *second);

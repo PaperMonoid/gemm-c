@@ -1,2 +1,2 @@
-Matrix *gemm_transposed_parallel_simd(Matrix *A,
-				      Matrix *B);
+Matrix *gemm_transposed_parallel_simd(Matrix *first,
+				      Matrix *second);

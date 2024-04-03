@@ -136,6 +136,7 @@ void test() {
 
 int main() {
   srand((unsigned int)time(NULL));
+
   test();
 
   FILE *file;

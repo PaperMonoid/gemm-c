@@ -1,1 +1,1 @@
-Matrix *gemm_transposed(Matrix *A, Matrix *B);
+Matrix *gemm_transposed(Matrix *first, Matrix *second);

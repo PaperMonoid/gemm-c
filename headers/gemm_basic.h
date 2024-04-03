@@ -1,1 +1,1 @@
-Matrix *gemm_basic(Matrix *A, Matrix *B);
+Matrix *gemm_basic(Matrix *first, Matrix *second);
